@@ -30,6 +30,12 @@
     timeout: 5400
 
 - job:
+    name: openstack-chef15-minimal-integration-ubuntu
+    parent: openstack-chef-minimal-integration-ubuntu
+    vars:
+      openstack_chef_client_version: 15
+
+- job:
     name: openstack-chef-integration-centos
     parent: base
     nodeset: centos-7
@@ -52,10 +58,30 @@
     timeout: 5400
 
 - job:
+    name: openstack-chef15-minimal-integration-centos
+    parent: openstack-chef-minimal-integration-centos
+    vars:
+      openstack_chef_client_version: 15
+
+- job:
+    name: openstack-cinc15-integration-ubuntu
+    parent: openstack-chef-integration-ubuntu
+    vars:
+      openstack_chef_client_type: cinc
+      openstack_chef_client_version: 15
+
+- job:
     name: openstack-cinc-integration-ubuntu
     parent: openstack-chef-integration-ubuntu
     vars:
       openstack_chef_client_type: cinc
+
+- job:
+    name: openstack-cinc15-integration-centos
+    parent: openstack-chef-integration-centos
+    vars:
+      openstack_chef_client_type: cinc
+      openstack_chef_client_version: 15
 
 - job:
     name: openstack-cinc-integration-centos
@@ -68,40 +94,52 @@
     check:
       jobs:
         - openstack-chef-delivery
-        - openstack-chef-integration-ubuntu
         - openstack-chef-integration-centos
-        - openstack-cinc-integration-ubuntu
+        - openstack-chef-integration-ubuntu
+        - openstack-cinc15-integration-centos
+        - openstack-cinc15-integration-ubuntu
         - openstack-cinc-integration-centos
+        - openstack-cinc-integration-ubuntu
     gate:
       queue: openstack-chef
       jobs:
         - openstack-chef-delivery
-        - openstack-chef-integration-ubuntu
         - openstack-chef-integration-centos
-        - openstack-cinc-integration-ubuntu
+        - openstack-chef-integration-ubuntu
+        - openstack-cinc15-integration-centos
+        - openstack-cinc15-integration-ubuntu
         - openstack-cinc-integration-centos
+        - openstack-cinc-integration-ubuntu
 
 - project-template:
     name: openstack-chef-jobs
     check:
       jobs:
         - openstack-chef-delivery
-        - openstack-chef-integration-ubuntu
         - openstack-chef-integration-centos
-        - openstack-cinc-integration-ubuntu
-        - openstack-cinc-integration-centos
-        - openstack-chef-minimal-integration-ubuntu
+        - openstack-chef-integration-ubuntu
         - openstack-chef-minimal-integration-centos
+        - openstack-chef-minimal-integration-ubuntu
+        - openstack-chef15-minimal-integration-centos
+        - openstack-chef15-minimal-integration-ubuntu
+        - openstack-cinc15-integration-centos
+        - openstack-cinc15-integration-ubuntu
+        - openstack-cinc-integration-centos
+        - openstack-cinc-integration-ubuntu
     gate:
       queue: openstack-chef
       jobs:
         - openstack-chef-delivery
-        - openstack-chef-integration-ubuntu
         - openstack-chef-integration-centos
-        - openstack-cinc-integration-ubuntu
-        - openstack-cinc-integration-centos
-        - openstack-chef-minimal-integration-ubuntu
+        - openstack-chef-integration-ubuntu
         - openstack-chef-minimal-integration-centos
+        - openstack-chef-minimal-integration-ubuntu
+        - openstack-chef15-minimal-integration-centos
+        - openstack-chef15-minimal-integration-ubuntu
+        - openstack-cinc15-integration-centos
+        - openstack-cinc15-integration-ubuntu
+        - openstack-cinc-integration-centos
+        - openstack-cinc-integration-ubuntu
 
 - project:
     templates:
